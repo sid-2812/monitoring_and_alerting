@@ -1,0 +1,35 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: always
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: always
+    environment:
+    - GF_SMTP_ENABLED=true
+    - GF_SMTP_HOST=smtp.gmail.com:587
+    - GF_SMTP_USER=sidravat2812@gmail.com
+    - GF_SMTP_PASSWORD=wkjtdoseyvdpldqn
+    - GF_SMTP_FROM_ADDRESS=sidravat2812@gmail.com
+    - GF_SMTP_SKIP_VERIFY=true
+
+  node_exporter:
+    image: prom/node-exporter
+    container_name: node_exporter
+    ports:
+      - "9100:9100"
+    restart: always
+
+volumes:
+  grafana_data:
